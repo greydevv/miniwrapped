@@ -23,7 +23,7 @@ import Preview, { DOWNLOAD_TARGET_ID } from "app/components/Preview";
 export default function Home() {
   const IMG_DIM = 50;
   const SCOPE = "user-read-private user-read-email user-top-read";
-  const REDIRECT_URI = "http://localhost:3000";
+  const REDIRECT_URI = process.env.NEXT_PUBLIC_BASE_URL;
 
   // Filters
   const [limit, setLimit] = useState<Number>(50);
