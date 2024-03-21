@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Track, Artist } from "types.ts";
+import { Track, Artist } from "api_types";
 
 interface VinylProps {
   item: Track | Artist;

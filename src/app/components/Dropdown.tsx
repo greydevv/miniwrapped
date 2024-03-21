@@ -6,8 +6,8 @@ export interface DropdownOption {
 type DropdownProps = {
   readonly label: string,
   readonly value: string,
-  readonly opts: [DropdownOptions],
-  onChange: () => void,
+  readonly opts: DropdownOption[],
+  onChange: (v: string) => void,
 };
 
 export default function Dropdown({ label, value, opts, onChange }: DropdownProps) {

@@ -18,8 +18,8 @@ interface Thumbnail {
 }
 
 interface SimplifiedArtist {
-  id: String;
-  name: String;
+  id: string;
+  name: string;
   uri: string;
 }
 
@@ -42,9 +42,9 @@ interface Track {
 
 export {
   AlbumType,
-  Album,
-  Thumbnail,
-  SimplifiedArtist,
-  Artist,
-  Track,
+  type Album,
+  type Thumbnail,
+  type SimplifiedArtist,
+  type Artist,
+  type Track,
 };

@@ -1,12 +1,12 @@
 import React from "react";
 import Image from "next/image";
-import { Artist, Track } from "api_types.ts";
+import { Artist, Track } from "api_types";
 
 interface ItemListProps {
-  items: ([Artist] | [Track]);
+  items: Artist[] | Track[];
 }
 
-export default function ItemList({ items }) {
+export default function ItemList({ items }: ItemListProps) {
   return (
     <div className="grid grid-cols-[auto_50px_1fr] grid-rows-auto gap-y-4 gap-x-2 px-2">
       { items.map((item, i) => {
@@ -19,10 +19,9 @@ export default function ItemList({ items }) {
                 fill
                 sizes="(width: 50px)"
                 alt={ item.name }
-                sizes="100%"
               />
             </div>
-            { item.artists
+            { "artists" in item
               ? <div className="overflow-hidden">
                   <h4 className="text-left my-auto overflow-hidden whitespace-nowrap text-ellipsis">{ item.name }</h4>
                   <p className="text-dark text-sm opacity-40 -mt-[2px]">{ item.artists.map(artist => artist.name).join(" • ") }</p>

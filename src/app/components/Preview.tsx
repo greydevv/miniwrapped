@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { TimeRange, ShareType, Tab } from "types.ts";
-import { Artist, Track, Thumbnail } from "api_types.ts";
+import { TimeRange, ShareType, Tab, PreviewTheme } from "types";
+import { Artist, Track, Thumbnail } from "api_types";
 import Vinyl from "app/components/Vinyl";
 
 export const DOWNLOAD_TARGET_ID = "download-target";
@@ -19,11 +19,11 @@ interface PreviewConfig {
   tab: Tab;
   shareType: ShareType;
   timeRange: TimeRange;
-  theme: object;
+  theme: PreviewTheme;
 };
 
 interface PreviewProps {
-  items: ([Artist] | [Track]);
+  items: Artist[] | Track[];
   config: PreviewConfig;
 }
 
@@ -74,12 +74,14 @@ export default function Preview({ items, config }: PreviewProps) {
 }
 
 interface CollagePreviewProps {
-  images?: [Thumbnail],
+  images: Thumbnail[],
   config: PreviewConfig,
 }
-function customImageLoader({ src, width, quality }) {
-  return `${src}?w=${width}&q=${quality || 50}`;
-}
+
+// function customImageLoader({ src: string, width: number, quality }) {
+//   return `${src}?w=${width}&q=${quality || 50}`;
+// }
+
 function CollagePreview({ images, config }: CollagePreviewProps) {
   return (
       <div className="w-full h-full flex flex-col">
@@ -125,7 +127,12 @@ function CollagePreview({ images, config }: CollagePreviewProps) {
   );
 }
 
-function TopPreview({ item, config }) {
+interface TopPreviewProps {
+  item: (Artist | Track),
+  config: PreviewConfig,
+}
+
+function TopPreview({ item, config }: TopPreviewProps) {
   return (
     <div
       className="relative w-full h-full grid grid-rows-3 grid-cols-1 grid-flow-row justify-center items-center"
@@ -168,7 +175,7 @@ function TopPreview({ item, config }) {
         <h5 className="w-full text-light overflow-hidden whitespace-nowrap text-ellipsis">
           { item.name }
         </h5>
-        { item.artists &&
+        { "artists" in item &&
           <p className="w-full text-xs text-grey-20 -mt-[4px] overflow-hidden whitespace-nowrap text-ellipsis">
             { item.artists.map(artist => artist.name).join(" • ") }
           </p>
@@ -179,11 +186,11 @@ function TopPreview({ item, config }) {
 }
 
 interface TopNPreviewProps {
-  items: [Track] | [Artist];
+  items: Track[] | Artist[];
   config: PreviewConfig;
 }
 
-function TopNPreview({ items, config }: TopFivePreviewProps) {
+function TopNPreview({ items, config }: TopNPreviewProps) {
   return (
     <div className="h-full w-full flex flex-col">
       <div className="text-light mx-auto my-6 text-center">
@@ -217,10 +224,10 @@ function TopNPreview({ items, config }: TopFivePreviewProps) {
             backgroundSize: "cover",
           };
           return (
-            <div className="relative px-4 flex justify-center" style={ bgStyle }>
+            <div key={ i } className="relative px-4 flex justify-center" style={ bgStyle }>
               <div className="my-auto overflow-hidden relative z-[2] text-center">
                 <h4 className="text-light overflow-hidden whitespace-nowrap text-ellipsis">{ item.name }</h4>
-                { item.artists &&
+                { "artists" in item &&
                   <p className="text-xs text-light -mt-[4px] overflow-hidden whitespace-nowrap text-ellipsis">
                     { item.artists.map(artist => artist.name).join(" • ") }
                   </p>

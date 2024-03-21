@@ -7,16 +7,17 @@ import Image from "next/image";
 import React from "react";
 import { useState, useEffect } from "react";
 import { toJpeg, toBlob } from "html-to-image";
-import FileSaver from "file-saver";
+// import FileSaver from "file-saver";
+import { saveAs } from "file-saver";
 
 import Loading from "app/components/Loading";
-import Client from "client.ts";
-import { useSpotifyAuth, useSpotifyApi } from "hooks/spotifyApi.ts";
-import { TopArtist, Thumbnail, Tab, TimeRange, ShareType, PreviewThemeOptions, previewTheme } from "types.ts";
+import { useSpotifyAuth, useSpotifyApi } from "hooks/spotifyApi";
+import { Thumbnail, Artist, Track } from "api_types";
+import { Tab, TimeRange, ShareType, PreviewThemeOptions, previewTheme } from "types";
 import Navbar from "app/components/navigation";
 import StatisticsTab from "app/components/StatisticsTab";
 import ItemList from "app/components/ItemList";
-import Dropdown, { DropdownOptions } from "app/components/Dropdown";
+import Dropdown, { DropdownOption } from "app/components/Dropdown";
 import Preview, { DOWNLOAD_TARGET_ID } from "app/components/Preview";
 
 export default function Home() {
@@ -33,9 +34,9 @@ export default function Home() {
 
   // Spotify API Hooks
   const [spotifyAuthUri, accessToken, expiresAt, onLogout] = useSpotifyAuth(REDIRECT_URI, SCOPE);
-  const [tracks, tracksError, tracksLoading, fetchTracks] = useSpotifyApi<([Artist] | [Track])>("me/top/tracks");
-  const [artists, artistsError, artistsLoading, fetchArtists ] = useSpotifyApi<([Artist] | [Track])>("me/top/artists");
-  const [items, setItems] = useState<[Artist | Track]>(null);
+  const [tracks, tracksError, tracksLoading, fetchTracks] = useSpotifyApi<Track>("me/top/tracks");
+  const [artists, artistsError, artistsLoading, fetchArtists ] = useSpotifyApi<Artist>("me/top/artists");
+  const [items, setItems] = useState<Artist[] | Track[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [downloadLoading, setDownloadLoading] = useState<boolean>(false);
 
@@ -101,17 +102,22 @@ export default function Home() {
 
   const downloadClicked = () => {
     setDownloadLoading(true);
-    toBlob(document.getElementById(DOWNLOAD_TARGET_ID))
-      .then(function (blob) {
-        if (window.saveAs) {
-          window.saveAs(blob, 'my-node.png');
-        } else {
-         FileSaver.saveAs(blob, 'my-node.png');
-       }
-      })
-      .then(function () {
-        setDownloadLoading(false);
-      });
+    const el = document.getElementById(DOWNLOAD_TARGET_ID);
+    if (el) {
+      toBlob(el)
+        .then(function (blob) {
+          if ("saveAs" in window) {
+            (window as any).saveAs(blob, 'my-node.png');
+          } else {
+            if (blob) {
+              saveAs(blob, 'my-node.png');
+            }
+         }
+        })
+        .then(function () {
+          setDownloadLoading(false);
+        });
+    }
   };
 
 
@@ -168,26 +174,26 @@ export default function Home() {
                     <Dropdown
                       label="Type"
                       value={ tab }
-                      opts={ Object.values(Tab).map(e => ({ value: e, text: makePrettyTab(e) }))}
-                      onChange={ newTab => setTab(newTab) }
+                      opts={ Object.values(Tab).map((e): DropdownOption => ({ value: e, text: makePrettyTab(e) }))}
+                      onChange={ newTab => setTab(newTab as Tab) }
                     />
                     <Dropdown
                       label="Image output"
                       value={ shareType }
-                      opts={ Object.values(ShareType).map(e => ({ value: e, text: makePrettyShareType(e) })) }
-                      onChange={ newShareType => setShareType(newShareType) }
+                      opts={ Object.values(ShareType).map((e): DropdownOption => ({ value: e, text: makePrettyShareType(e) })) }
+                      onChange={ newShareType => setShareType(newShareType as ShareType) }
                     />
                     <Dropdown
                       label="Time frame"
                       value={ range }
-                      opts={ Object.values(TimeRange).map(e => ({ value: e, text: makePrettyTimeRange(e) })) }
-                      onChange={ newTimeRange => setRange(newTimeRange) }
+                      opts={ Object.values(TimeRange).map((e): DropdownOption => ({ value: e, text: makePrettyTimeRange(e) })) }
+                      onChange={ newTimeRange => setRange(newTimeRange as TimeRange) }
                     />
                     <Dropdown
                       label="Theme"
                       value={ theme }
-                      opts={ Object.values(PreviewThemeOptions).map(e => ({ value: e, text: e })) }
-                      onChange={ newTheme => setTheme(newTheme) }
+                      opts={ Object.values(PreviewThemeOptions).map((e): DropdownOption => ({ value: e, text: e })) }
+                      onChange={ newTheme => setTheme(newTheme as PreviewThemeOptions) }
                     />
                   </div>
                   <div className="flex gap-x-4 w-full">

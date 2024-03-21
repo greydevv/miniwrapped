@@ -25,7 +25,17 @@ enum PreviewThemeOptions {
   SPOTIFY = "Spotify",
 }
 
-const previewTheme = {
+interface PreviewTheme {
+  bgColor: string;
+  accentColor: string;
+  textColorOnBg: string;
+  textColorOnAccent: string;
+  secondaryTextColor: string;
+}
+
+const previewTheme: {
+  [key: string]: PreviewTheme
+} = {
   dark: {
     bgColor: "#1E1E1E",
     accentColor: "#1DB954",
@@ -75,5 +85,6 @@ export {
   TimeRange,
   ShareType,
   PreviewThemeOptions,
+  type PreviewTheme,
   previewTheme,
 };
