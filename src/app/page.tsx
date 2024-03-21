@@ -26,9 +26,9 @@ export default function Home() {
 
   // Filters
   const [limit, setLimit] = useState<Number>(50);
-  const [tab, setTab] = useState<Tab>(Tab.TRACKS);
-  const [range, setRange] = useState<TimeRange>(TimeRange.SHORT);
-  const [shareType, setShareType] = useState<ShareType>(ShareType.COLLAGE);
+  const [tab, setTab] = useState<Tab>(Tab.ARTISTS);
+  const [range, setRange] = useState<TimeRange>(TimeRange.LONG);
+  const [shareType, setShareType] = useState<ShareType>(ShareType.TOP_ONE);
   const [theme, setTheme] = useState<PreviewThemeOptions>(PreviewThemeOptions.DARK);
 
   // Spotify API Hooks
@@ -101,20 +101,6 @@ export default function Home() {
 
   const downloadClicked = () => {
     setDownloadLoading(true);
-  //   html2canvas(document.getElementById(DOWNLOAD_TARGET_ID))
-  //     .then(function(canvas) {
-  //       canvas.toBlob(function(blob) {
-  //         if (window.saveAs) {
-  //           window.saveAs(blob, "my-node.png");
-  //         } else {
-  //           FileSaver.saveAs(blob, "my-node.png");
-  //         }
-  //       })
-  //       // document.body.appendChild(canvas);
-  //     })
-  //     .then(function(_) {
-  //       setDownloadLoading(false);
-  //     });
     toBlob(document.getElementById(DOWNLOAD_TARGET_ID))
       .then(function (blob) {
         if (window.saveAs) {
@@ -165,7 +151,7 @@ export default function Home() {
   }
 
   return (
-    <main className="grid grid-cols-1 grid-rows-[auto_1fr] min-h-screen sm:h-screen w-screen bg-grey-10 text-dark relative">
+    <div className="grid grid-cols-1 grid-rows-[auto_1fr] min-h-screen sm:h-screen w-screen bg-grey-10 text-dark relative">
       <Navbar
         showLogout={ !!accessToken }
         onLogoutClicked={ onLogout }
@@ -176,9 +162,9 @@ export default function Home() {
             ? <Link className="font-medium text-dark bg-spotify-green rounded-full py-2 px-4 box-border" href={ spotifyAuthUri }>
                 Login with Spotify
               </Link>
-            : <div className="grid grid-cols-1 grid-rows-[auto_1fr] h-full gap-y-8">
-                <div className="row-start-1 row-end-2 col-start-1 col-end-3 flex justify-between">
-                  <div className="flex flex-col sm:flex-row gap-x-4">
+            : <div className="grid grid-cols-1 grid-rows-[auto_1fr] h-full gap-y-4 sm:gap-y-8">
+                <div className="row-start-1 row-end-2 col-start-1 col-end-3 flex flex-col sm:flex-row gap-y-4 sm:gap-y-0 sm:justify-between">
+                  <div className="grid grid-rows-2 sm:grid-rows-1 grid-cols-[repeat(2,_auto)] sm:grid-cols-[repeat(4,_auto)] gap-y-4 sm:gap-y-0 gap-x-4">
                     <Dropdown
                       label="Type"
                       value={ tab }
@@ -204,11 +190,11 @@ export default function Home() {
                       onChange={ newTheme => setTheme(newTheme) }
                     />
                   </div>
-                  <div className="flex gap-x-4">
+                  <div className="flex gap-x-4 w-full">
                     { downloadLoading
                       ? <div className="ml-auto w-6 h-6 my-auto"><Loading /></div>
                       : <button
-                          className="mt-auto ml-auto font-medium text-dark bg-spotify-green rounded-full py-2 px-4 box-border"
+                          className="w-full sm:w-auto sm:mt-auto sm:ml-auto font-medium text-dark bg-spotify-green rounded-full py-2 px-4 box-border"
                           onClick={ downloadClicked }
                         >
                           Download
@@ -226,21 +212,23 @@ export default function Home() {
                       <div className="overflow-scroll flex-grow order-2 sm:order-1">
                         <ItemList items={ items || [] } />
                       </div>
-                      <Preview
-                        items={ items || [] }
-                        config={{
-                          tab: tab,
-                          shareType: shareType,
-                          timeRange: range,
-                          theme: previewTheme[theme],
-                        }}
-                      />
+                      { items &&
+                        <Preview
+                          items={ items }
+                          config={{
+                            tab: tab,
+                            shareType: shareType,
+                            timeRange: range,
+                            theme: previewTheme[theme],
+                          }}
+                        />
+                      }
                     </div>
                 }
               </div>
           }
         </div>
       </div>
-    </main>
+    </div>
   );
 }

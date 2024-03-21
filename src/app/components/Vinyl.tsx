@@ -7,7 +7,7 @@ interface VinylProps {
 
 export default function Vinyl({ item }: VinylProps) {
   return (
-    <div className="h-full w-full aspect-square flex flex-row">
+    <div className="w-full aspect-square flex flex-row relative">
       <Image
         src={ item.images[0].url }
         fill

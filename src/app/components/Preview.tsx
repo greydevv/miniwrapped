@@ -29,11 +29,11 @@ interface PreviewProps {
 
 export default function Preview({ items, config }: PreviewProps) {
   return (
-    <div className="w-full sm:w-auto sm:h-full aspect-[9/16] rounded-xl overflow-clip order-1 sm:order-2">
+    <div className="mx-auto w-auto h-screen sm:h-full aspect-[9/16] rounded-xl overflow-clip order-1 sm:order-2">
       <div className="h-full w-full" id={ DOWNLOAD_TARGET_ID } style={{ backgroundColor: config.theme.bgColor }}>
         { config.shareType === ShareType.TOP_ONE &&
           <TopPreview
-            item={ items[0 ] }
+            item={ items[0] }
             config={ config }
           />
         }
@@ -133,25 +133,22 @@ function TopPreview({ item, config }) {
         backgroundImage: `url(${item.images[0].url})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
+        backgroundSize: "cover",
       }}
     >
       <div className="absolute top-0 left-0 h-full w-full bg-dark opacity-80 z-[1]"/>
       <div className="w-full overflow-hidden text-center px-8 z-[2]">
-        <h4
-          className="w-full text-light overflow-hidden whitespace-nowrap text-ellipsis"
-          style={{ color: config.theme.secondaryTextColor }}
-        >
+        <h4 className="w-full text-light overflow-hidden whitespace-nowrap text-ellipsis">
           TOP { config.tab === Tab.ARTISTS ? "ARTIST" : "SONG" }
         </h4>
-        <p
-          className="w-full text-xs text-light -mt-[4px] overflow-hidden whitespace-nowrap text-ellipsis opacity-40"
-          style={{ color: config.theme.secondaryTextColor }}
-        >
+        <p className="w-full text-xs text-grey-20 -mt-[4px] overflow-hidden whitespace-nowrap text-ellipsis">
           { getTimeRangeString(config.timeRange) }
         </p>
       </div>
-      <div className="relative aspect-square w-1/2 mx-auto z-[2]">
-        <Vinyl item={ item } />
+      <div className="relative aspect-square w-full z-[2] flex justify-center items-center">
+        <div className="w-1/2">
+          <Vinyl item={ item } />
+        </div>
         {/*
         <Image
           className="relative z-[2]"
@@ -168,17 +165,11 @@ function TopPreview({ item, config }) {
         */}
       </div>
       <div className="w-full overflow-hidden text-center px-8 relative z-[2]">
-        <h5
-          className="w-full text-light overflow-hidden whitespace-nowrap text-ellipsis"
-          style={{ color: config.theme.secondaryTextColor }}
-        >
+        <h5 className="w-full text-light overflow-hidden whitespace-nowrap text-ellipsis">
           { item.name }
         </h5>
         { item.artists &&
-          <p
-            className="w-full text-xs text-light -mt-[4px] overflow-hidden whitespace-nowrap text-ellipsis opacity-40"
-            style={{ color: config.theme.secondaryTextColor }}
-          >
+          <p className="w-full text-xs text-grey-20 -mt-[4px] overflow-hidden whitespace-nowrap text-ellipsis">
             { item.artists.map(artist => artist.name).join(" • ") }
           </p>
         }
@@ -229,8 +220,10 @@ function TopNPreview({ items, config }: TopFivePreviewProps) {
             <div className="relative px-4 flex justify-center" style={ bgStyle }>
               <div className="my-auto overflow-hidden relative z-[2] text-center">
                 <h4 className="text-light overflow-hidden whitespace-nowrap text-ellipsis">{ item.name }</h4>
-                { config.tab === Tab.TRACKS &&
-                  <p className="text-xs text-light -mt-[4px] overflow-hidden whitespace-nowrap text-ellipsis">{ item.artists.map(artist => artist.name).join(" • ") }</p>
+                { item.artists &&
+                  <p className="text-xs text-light -mt-[4px] overflow-hidden whitespace-nowrap text-ellipsis">
+                    { item.artists.map(artist => artist.name).join(" • ") }
+                  </p>
                 }
               </div>
               <div className="w-full h-full bg-dark opacity-40 absolute top-0 left-0 z-[1]" />

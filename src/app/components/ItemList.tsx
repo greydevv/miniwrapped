@@ -18,7 +18,7 @@ export default function ItemList({ items }) {
                 src={ item.images[0].url }
                 fill
                 sizes="(width: 50px)"
-                alt={ `Thumbnail for ${item.name}`}
+                alt={ item.name }
                 sizes="100%"
               />
             </div>

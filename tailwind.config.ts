@@ -19,6 +19,7 @@ const config: Config = {
     colors: {
       "dark": "#1E1E1E",
       "light": "#F9F9F9",
+      "grey-20": "#929292",
       "grey-10": "#ECECEC",
       "grey": "#E2E2E2",
       "spotify-green": "#1DB954",
