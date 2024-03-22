@@ -28,6 +28,9 @@ interface PreviewProps {
 }
 
 export default function Preview({ items, config }: PreviewProps) {
+  if (items.length == 0) {
+    return <div>NO ITEMS</div>
+  }
   return (
     <div className="mx-auto w-auto h-screen sm:h-full aspect-[9/16] rounded-xl overflow-clip order-1 sm:order-2">
       <div className="h-full w-full" id={ DOWNLOAD_TARGET_ID } style={{ backgroundColor: config.theme.bgColor }}>
@@ -93,6 +96,7 @@ function CollagePreview({ images, config }: CollagePreviewProps) {
                   <img
                     className="cover aspect-square w-full"
                     src={ image.url }
+                    alt=""
                   />
                   {/*
                   <Image
@@ -128,7 +132,7 @@ function CollagePreview({ images, config }: CollagePreviewProps) {
 }
 
 interface TopPreviewProps {
-  item: (Artist | Track),
+  item: Artist | Track,
   config: PreviewConfig,
 }
 

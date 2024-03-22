@@ -7,7 +7,6 @@ import Image from "next/image";
 import React from "react";
 import { useState, useEffect } from "react";
 import { toJpeg, toBlob } from "html-to-image";
-// import FileSaver from "file-saver";
 import { saveAs } from "file-saver";
 
 import Loading from "app/components/Loading";
@@ -98,7 +97,7 @@ export default function Home() {
         break;
       }
     }
-  }, [limit, tab, range, accessToken]);
+  }, [limit, tab, range, accessToken, fetchArtists, fetchTracks, expiresAt, onLogout]);
 
   const downloadClicked = () => {
     setDownloadLoading(true);

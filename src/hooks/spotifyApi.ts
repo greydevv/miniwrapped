@@ -127,7 +127,7 @@ export function useSpotifyAuth(redirect_uri: string, scope: string): SpotifyAuth
       setAccessToken(hashParams["access_token"] as string);
       setExpiresAt(hashParams["expires_at"] as number);
     }
-  }, []);
+  }, [accessToken]);
 
   const onLogout = () => {
     window.localStorage.removeItem("token");
