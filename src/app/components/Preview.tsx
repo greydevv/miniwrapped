@@ -176,7 +176,7 @@ function TopPreview({ item, config }: TopPreviewProps) {
         */}
       </div>
       <div className="w-full overflow-hidden text-center px-8 relative z-[2]">
-        <h5 className="w-full text-light overflow-hidden whitespace-nowrap text-ellipsis">
+        <h5 className="w-full text-light line-clamp-1">
           { item.name }
         </h5>
         { "artists" in item &&

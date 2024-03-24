@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { randomBytes } from "crypto";
 import { Artist, Track } from "api_types";
@@ -42,7 +42,7 @@ export function useSpotifyApi<T>(path: string): SpotifyDataHookResponse<T> {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<SpotifyApiError | null>(null);
 
-  const fetchData = async (opts?: AxiosRequestConfig) => {
+  const fetchData = useCallback(async (opts?: AxiosRequestConfig) => {
     setIsLoading(true);
     try {
       const url = BASE_SPOTIFY_URL + path;
@@ -76,7 +76,7 @@ export function useSpotifyApi<T>(path: string): SpotifyDataHookResponse<T> {
       setError(error as SpotifyApiError);
     }
     setIsLoading(false);
-  };
+  }, [path]);
 
   return [ data, error, isLoading, fetchData ];
 };
@@ -129,12 +129,12 @@ export function useSpotifyAuth(redirect_uri: string, scope: string): SpotifyAuth
     }
   }, [accessToken]);
 
-  const onLogout = () => {
+  const onLogout = useCallback(() => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("expires_at");
     setAccessToken("");
     setExpiresAt(-1);
-  };
+  }, []);
 
   return [ spotifyAuthUri, accessToken, expiresAt, onLogout ]
 }

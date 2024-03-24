@@ -97,7 +97,7 @@ export default function Home() {
         break;
       }
     }
-  }, [limit, tab, range, accessToken, fetchArtists, fetchTracks, expiresAt, onLogout]);
+  }, [limit, tab, range, accessToken, expiresAt, fetchTracks, fetchArtists, onLogout]);
 
   const downloadClicked = () => {
     setDownloadLoading(true);
