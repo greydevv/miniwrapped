@@ -99,16 +99,19 @@ export default function Home() {
     }
   }, [limit, tab, range, accessToken, expiresAt, fetchTracks, fetchArtists, onLogout]);
 
-  const downloadClicked = () => {
+  const downloadClicked = async () => {
     setDownloadLoading(true);
     const el = document.getElementById(DOWNLOAD_TARGET_ID);
     if (el) {
+      // Ignore the next line. Don't care about typing here.
+      // @ts-ignore
       const isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
       if (isSafari) {
         // This is a hacky workaround because the HTML doesn't download
         // properly on Safari. Really not sure how many times I should be
         // calling this, but two works.
-        toBlob(el);
+        await toBlob(el)
+        await toBlob(el);
       }
       toBlob(el)
         .then(function (blob) {
