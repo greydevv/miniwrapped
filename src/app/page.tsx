@@ -103,6 +103,13 @@ export default function Home() {
     setDownloadLoading(true);
     const el = document.getElementById(DOWNLOAD_TARGET_ID);
     if (el) {
+      const isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+      if (isSafari) {
+        // This is a hacky workaround because the HTML doesn't download
+        // properly on Safari. Really not sure how many times I should be
+        // calling this, but two works.
+        toBlob(el);
+      }
       toBlob(el)
         .then(function (blob) {
           if ("saveAs" in window) {
@@ -154,7 +161,6 @@ export default function Home() {
       case Tab.TRACKS: return "Tracks";
     }
   }
-
   return (
     <div className="grid grid-cols-1 grid-rows-[auto_1fr] min-h-screen sm:h-screen w-screen bg-grey-10 text-dark relative">
       <Navbar
