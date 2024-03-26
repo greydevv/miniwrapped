@@ -32,7 +32,7 @@ export default function Preview({ items, config }: PreviewProps) {
     return <div>NO ITEMS</div>
   }
   return (
-    <div className="mx-auto w-auto h-screen sm:h-full aspect-[9/16] rounded-xl overflow-clip order-1 sm:order-2">
+    <div className="mx-auto w-full max-w-[300px] sm:w-auto sm:h-full aspect-[9/16] rounded-xl overflow-clip order-1 sm:order-2">
       <div className="h-full w-full" id={ DOWNLOAD_TARGET_ID } style={{ backgroundColor: config.theme.bgColor }}>
         { config.shareType === ShareType.TOP_ONE &&
           <TopPreview

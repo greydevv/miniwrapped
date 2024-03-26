@@ -204,17 +204,15 @@ export default function Home() {
                       onChange={ newTheme => setTheme(newTheme as PreviewThemeOptions) }
                     />
                   </div>
-                  <div className="flex gap-x-4 w-full">
-                    { downloadLoading
-                      ? <div className="ml-auto w-6 h-6 my-auto"><Loading /></div>
-                      : <button
-                          className="w-full sm:w-auto sm:mt-auto sm:ml-auto font-medium text-dark bg-spotify-green rounded-full py-2 px-4 box-border"
-                          onClick={ downloadClicked }
-                        >
-                          Download
-                        </button>
-                    }
-                  </div>
+                  { downloadLoading
+                    ? <div className="mx-auto sm:ml-auto sm:mr-0 w-6 h-6 my-auto"><Loading /></div>
+                    : <button
+                        className="w-full max-w-[300px] sm:w-auto sm:mt-auto mx-auto sm:ml-auto sm:mr-0 font-medium text-dark bg-spotify-green rounded-full py-2 px-4 box-border"
+                        onClick={ downloadClicked }
+                      >
+                        Download
+                      </button>
+                  }
                 </div>
                 { loading
                   ? <div className="row-start-2 row-end-3 col-start-1 col-end-3 w-full h-full flex items-center justify-center">
