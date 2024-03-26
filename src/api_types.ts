@@ -27,8 +27,8 @@ interface Artist {
   id: string;
   name: string;
   uri: string;
-  genres: [string];
-  images: [Thumbnail];
+  genres: string[];
+  images: Thumbnail[];
 }
 
 interface Track {
@@ -36,8 +36,8 @@ interface Track {
   name: string;
   uri: string;
   album: Album;
-  artists: [SimplifiedArtist];
-  images: [Thumbnail];
+  artists: SimplifiedArtist[];
+  images: Thumbnail[];
 }
 
 export {
