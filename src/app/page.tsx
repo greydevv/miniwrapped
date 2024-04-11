@@ -173,9 +173,19 @@ export default function Home() {
       <div className="flex justify-center sm:overflow-hidden">
         <div className="px-4 sm:px-12 md:px-24 py-12 box-border max-w-6xl row-start-2 row-end-3 w-full">
           { !accessToken
-            ? <Link className="font-medium text-dark bg-spotify-green rounded-full py-2 px-4 box-border" href={ spotifyAuthUri }>
-                Login with Spotify
-              </Link>
+            ? <div className="w-full h-full flex flex-col justify-center items-center gap-y-2">
+                <Link className="font-medium text-dark bg-spotify-green rounded-full py-2 px-4 box-border" href={ spotifyAuthUri }>
+                  Login with Spotify
+                </Link>
+                <p className="text-grey-20 text-sm">
+                  By logging in with Spotify, you agree to our &nbsp;
+                  <span className="underline text-spotify-green">
+                    <Link href="/privacy-policy">
+                      privacy policy
+                    </Link>
+                  </span>
+                </p>
+              </div>
             : <div className="grid grid-cols-1 grid-rows-[auto_1fr] h-full gap-y-4 sm:gap-y-8">
                 <div className="row-start-1 row-end-2 col-start-1 col-end-3 flex flex-col sm:flex-row gap-y-4 sm:gap-y-0 sm:justify-between">
                   <div className="grid grid-rows-2 sm:grid-rows-1 grid-cols-[repeat(2,_auto)] sm:grid-cols-[repeat(4,_auto)] gap-y-4 sm:gap-y-0 gap-x-4">

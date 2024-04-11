@@ -15,6 +15,7 @@ export default function ItemList({ items }: ItemListProps) {
             <h4 className="text-center my-auto">{ i + 1 }</h4>
             <div className="relative aspect-square">
               <Image
+                className="object-cover"
                 src={ item.images[0].url }
                 fill
                 sizes="(width: 50px)"

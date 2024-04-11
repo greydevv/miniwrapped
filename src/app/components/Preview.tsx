@@ -94,7 +94,7 @@ function CollagePreview({ images, config }: CollagePreviewProps) {
               return (
                 <div key={ i } className="relative">
                   <img
-                    className="cover aspect-square w-full"
+                    className="object-cover aspect-square w-full"
                     src={ image.url }
                     alt=""
                   />

@@ -91,6 +91,7 @@ export function useSpotifyAuth(redirect_uri: string, scope: string): SpotifyAuth
     `redirect_uri=${redirect_uri}&` +
     `scope=${scope}&` +
     "response_type=token&" +
+    "show_dialog=true&" +
     `state=${generateRandomState()}`;
 
   const [accessToken, setAccessToken] = useState<string>("");
