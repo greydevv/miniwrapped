@@ -177,7 +177,7 @@ export default function Home() {
                 <Link className="font-medium text-dark bg-spotify-green rounded-full py-2 px-4 box-border" href={ spotifyAuthUri }>
                   Login with Spotify
                 </Link>
-                <p className="text-grey-20 text-sm">
+                <p className="text-grey-20 text-sm text-center max-w-xs sm:max-w-none">
                   By logging in with Spotify, you agree to our &nbsp;
                   <span className="underline text-spotify-green">
                     <Link href="/privacy-policy">
